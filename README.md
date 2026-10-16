@@ -1,76 +1,39 @@
-# 日记应用
+# Web 版 — 唯美日记
 
-这是一个简洁、唯美的日记应用示例，支持：
-- 新建日记
-- 插入图片（相机 / 相册）
-- 自动记录日期与时间
-- 获取当前天气
-- 本地存储到 Hive
+项目已从 Flutter 移植为 Web（React + Vite）启动版，功能对齐移动版的最小可行实现：
 
-## 功能概览
-- 纯净白/淡色视觉风格
-- 时间 + 天气标注
-- 图片展示与卡片列表
-- 轻量本地数据库，无需后端
+- 新建日记（标题、正文）
+- 插入图片（本地文件，转为 base64 存储在 localStorage）
+- 时间选择（datetime-local）
+- 获取天气（使用 OpenWeatherMap + 浏览器定位）
+- 本地存储：localStorage（key = diary_entries_v1）
 
-## 运行步骤
+快速运行：
 
-1. 安装 Flutter SDK，并确保已运行 `flutter doctor` 通过。
-2. 在项目根目录执行：
+1. 安装依赖
 
 ```bash
-flutter pub get
+npm install
 ```
 
-3. 运行：
+2. 本地调试
 
 ```bash
-flutter run
+npm run dev
 ```
 
-## 配置天气 API
+3. 构建
 
-本示例使用 OpenWeatherMap 获取实时天气。你需要在 `lib/screens/editor.dart` 中替换以下字段：
-
-```dart
-const weatherApiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+```bash
+npm run build
 ```
 
-获取步骤：
-- 注册 OpenWeatherMap 账号
-- 创建 API Key
-- 替换为自己的 key
+注意事项：
+- 请在 src/components/Editor.jsx 中把 WEATHER_API_KEY 替换为你自己的 OpenWeatherMap Key 才能使用天气功能。
+- 当前数据保存在浏览器 localStorage，换设备或清除浏览器数据会丢失。
+- 图片以 base64 存储，若需要长期大量图片建议改为上传或使用 IndexedDB / 后端存储。
 
-## Android 权限
-
-在 `android/app/src/main/AndroidManifest.xml` 中添加：
-
-```xml
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-```
-
-## iOS 权限
-
-在 `ios/Runner/Info.plist` 中添加：
-
-```xml
-<key>NSLocationWhenInUseUsageDescription</key>
-<string>用于获取当前位置以展示天气信息</string>
-<key>NSCameraUsageDescription</key>
-<string>用于拍照并插入日记</string>
-<key>NSPhotoLibraryUsageDescription</key>
-<string>用于选择图片插入日记</string>
-```
-
-## 说明
-
-这是一个轻量开发版，适合你先快速验证产品方向；后续可以再扩展：
-- 搜索与标签
-- 月份归档
-- 云同步
-- 情绪打分
-- 导出 PDF / 图片分享
+下一步建议：
+- 添加登陆/云同步（Firebase / 自建后端）
+- 支持 Markdown / 富文本
+- 日记导出（PDF / 图片）
